@@ -1,0 +1,38 @@
+name: Build
+
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build project
+        run: dotnet build --configuration Release
+  
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Test project
+        run: dotnet test
+  
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v1
+        
+      - uses: actions/checkout@v1
+      - name: Pack package
+        run: dotnet pack --configuration Release
+      
+      - name: Push package
+        run: |
+          nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/DoctorOnline/index.json -Username DoctorOnline -Password ${{ secrets.GITHUB_TOKEN }}
+          nuget push **\*.nupkg -source "GPR"
