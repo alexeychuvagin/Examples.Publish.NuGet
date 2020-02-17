@@ -7,9 +7,9 @@ namespace Examples.Publish.NuGet.Tests
         [Theory]
         [InlineData(1, 1, 2)]
         [InlineData(5, 5, 10)]
-        public void AdditionTest(int op1, int op2, int result)
+        public void AdditionTest(int argument1, int argument2, int result)
         {
-            var res = Foo.Addition(op1, op2);
+            var res = Foo.Addition(argument1, argument2);
             Assert.Equal(res, result);
         }
     }

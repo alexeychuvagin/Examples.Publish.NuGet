@@ -2,9 +2,9 @@
 {
     public static class Foo
     {
-        public static int Addition(int operator1, int operator2)
+        public static int Addition(int argument1, int argument2)
         {
-            return operator1 + operator2;
+            return argument1 + argument2;
         }
     }
 }
