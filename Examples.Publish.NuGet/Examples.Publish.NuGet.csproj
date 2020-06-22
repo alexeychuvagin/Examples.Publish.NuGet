@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>DoctorOnline</Authors>
     <PackageId>Examples.Publish.NuGet</PackageId>
-    <PackageVersion>1.0.3</PackageVersion>
+    <PackageVersion>1.0.4</PackageVersion>
     <PackageProjectUrl>https://github.com/DoctorOnline/Examples.Publish.NuGet/</PackageProjectUrl>
   </PropertyGroup>
 
