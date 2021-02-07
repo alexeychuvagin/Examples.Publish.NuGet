@@ -4,7 +4,10 @@ on:
   push:
     branches: 
       - master
-
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,14 +28,21 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: Setup NuGet
-        uses: nuget/setup-nuget@v1
-        
-      - uses: actions/checkout@v1
-      - name: Pack package
-        run: dotnet pack --configuration Release
-      
-      - name: Push package
-        run: |
-          nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/doctoronline/index.json -Username doctoronline -Password ${{ secrets.GITHUB_TOKEN }}
-          nuget push **\*.nupkg -source "GPR"
+      - name: Checkout repository
+        uses: actions/checkout@v1
+
+      - name: Setup .NET Core @ Latest
+        uses: actions/setup-dotnet@v1
+        with:
+          source-url: https://nuget.pkg.github.com/doctoronline/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}        
+          
+      - name: Build solution and generate NuGet package
+        run: |  
+          cd Examples.Publish.NuGet
+          dotnet pack -c Release -o out  
+
+      - name: Push generated package to GitHub registry
+        run: dotnet nuget push ./Examples.Publish.NuGet/out/*.nupkg --skip-duplicate --no-symbols true
+
