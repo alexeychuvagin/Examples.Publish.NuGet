@@ -34,7 +34,7 @@ jobs:
       - name: Setup .NET Core @ Latest
         uses: actions/setup-dotnet@v1
         with:
-          source-url: https://nuget.pkg.github.com/doctoronline/index.json
+          source-url: https://nuget.pkg.github.com/alexeychuvagin/index.json
         env:
           NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}        
           
